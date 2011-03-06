@@ -1,0 +1,5 @@
+<%= erb :header %>
+
+<% Model.find_by_fullpath(keyword).each do |row| %>
+  <a href="/tree?path=<%= row %>"><%= row %></a><br>
+<% end %>
