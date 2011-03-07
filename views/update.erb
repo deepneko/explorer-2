@@ -1,5 +1,5 @@
 <%= erb :header %>
 
-<% Model.open_path(path).each do |row| %>
-  <%= row %><br>
+<% Model.recent_update(params[:span]).each do |row| %>
+  [<%= row[:created_at].strftime('%Y-%m-%d %H:%M:%S') %>] <a href=/tree?path=<%= row[:fullpath] %>><%= row[:file] %></a><br>
 <% end %>

@@ -2,11 +2,14 @@
 <title>tomoyo explorer</title>
 </head>
 
-<b>File Search</b></br>
+<b><a href=/>File Search</a></b></br>
 <form action='/search?keyword=<%= params[:keyword] %>' method='get'>
-Keyword: <input type="text" name="keyword"><br>
+Keyword: <input type="text" name="keyword" value="<%= params[:keyword] %>"><br>
 <input type="submit" value="Search">
 </form>
 
 <hr>
 
+recent update!! -> <a href=/update/7>week</a> | <a href=/update/30>month</a> | <a href=/update/365>year</a>
+
+<hr>

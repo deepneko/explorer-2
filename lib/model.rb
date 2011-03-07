@@ -22,12 +22,21 @@ module Model
     Util::FolderTree.new(path).tree
   end
 
+  def self.all
+    Filelist.sort(:created_at.desc).all
+  end
+
+  def self.recent_update(span)
+    since = (Time.now - 24*60*60*(span.to_i)).utc
+    Filelist.where(:created_at.gt => since).sort(:created_at.desc).all
+  end
+
   class Filelist
     include MongoMapper::Document
     key :path, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
-    key :date, String, :required => true
+    timestamps!
   end
 
   class Download

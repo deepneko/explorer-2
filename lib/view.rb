@@ -28,9 +28,9 @@ module View
   end
 
   def self.update
-    get '/update/:days' do
+    get '/update/:span' do
       connect
-      erb :udpate, :locals => {:days => days}
+      erb :update, :locals => {:span => params[:span]}
     end
   end
 
