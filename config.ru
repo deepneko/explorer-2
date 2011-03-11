@@ -1,4 +1,4 @@
-require 'rubygems'
-require 'sinatra'
-require 'exproler-2'
+require 'rubygems' unless defined? ::Gem
+require File.dirname( __FILE__ ) + '/explorer.rb'
+
 run Sinatra::Application

@@ -14,7 +14,7 @@ module Const
       @HOST = "localhost"
       @DB = "explorer"
       @COLLECTION = "filelist"
-      @CRAWL_PATH = "/Users/deepneko/study/ruby/explorer-2/test/" # end is '/'
+      @CRAWL_PATH = "/Users/deepneko/study/ruby/explorer-2/spec/test/" # end is '/'
       @DEFAULT_SPAN = 7
     end
   end

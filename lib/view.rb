@@ -38,19 +38,18 @@ module View
     get '/rss.xml' do
       connect
       builder do |xml|
-        xml.instruct! :xml, :version => '1.0'
+        xml.instruct!
         xml.rss :version => "2.0" do
           xml.channel do
-            xml.title "みんなのTOMOYO"
-            xml.description "正しく使いましょう"
+            xml.title "TOMOYO search"
             xml.link "http://tomoyo.uraz.org/"
             
-            Model.find_limit($const.DEFAULT_PAGES).each do |post|
+            Model.recent_update(7) do |updates|
               xml.item do
-                xml.title post[:created_at]
+                xml.title "TOMOYO recent update!!"
                 text = ""
-                post[:text].each_line do |line|
-                  text += line + "<br>"
+                updates.each do |u|
+                  text += u[:created_at].strftime('%Y-%m-%d %H:%M:%S') + " " + u[:file] + "<br>"
                 end
                 xml.description text
               end
@@ -60,5 +59,4 @@ module View
       end
     end
   end
-
 end
