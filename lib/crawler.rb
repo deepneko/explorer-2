@@ -7,6 +7,8 @@ require 'const'
 
 $const = Const.init
 
+module Crawler
+
 class Model
   def connect
     MongoMapper.connection = Mongo::Connection.new($const.HOST)
@@ -67,4 +69,6 @@ class Model
       end
     end
   end
+end
+
 end
