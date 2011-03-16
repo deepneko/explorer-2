@@ -6,98 +6,98 @@ require 'rspec'
 require 'crawler'
 require 'const'
 
-describe Crawler do
+describe Model do
   before do
     @const = Const.init
-    @model = Crawler::Model.new
-    @model.connect
+    Model.connect
   end
 
   it "save complete" do
     file = "["
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "]"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "("
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = ")"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = ","
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "!"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "?"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "<"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = ">"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "#"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "+"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
   it "save complete" do
     file = "-"
     fullpath = @const.CRAWL_PATH + file
     `touch "#{fullpath}"`
-    @model.save(@const.CRAWL_PATH, file, fullpath)
+    Model.save(@const.CRAWL_PATH, file, fullpath)
   end
 
-  #after do 
-  #  `rm -rf #{@const.CRAWL_PATH + "*"}`
-  #end
+  after do 
+    `rm -rf #{@const.CRAWL_PATH + "*"}`
+    Model.delete_by_path(@const.CRAWL_PATH)
+  end
 end

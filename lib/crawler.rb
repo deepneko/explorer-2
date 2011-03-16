@@ -7,10 +7,8 @@ require 'const'
 
 $const = Const.init
 
-module Crawler
-
-class Model
-  def connect
+module Model
+  def self.connect
     MongoMapper.connection = Mongo::Connection.new($const.HOST)
     MongoMapper.database = $const.DB
   end
@@ -23,7 +21,7 @@ class Model
     timestamps!
   end
 
-  def crawl(path=$const.CRAWL_PATH)
+  def self.crawl(path=$const.CRAWL_PATH)
     Dir.open(path).each do |file|
       unless file =~ /^\./
         fullpath = path + file
@@ -37,7 +35,7 @@ class Model
     end
   end
 
-  def save(path, file, fullpath)
+  def self.save(path, file, fullpath)
     filelist = Filelist.find_by_fullpath(fullpath)
     if filelist
       print "update:" + NKF.guess(fullpath).to_s + ":" + fullpath + "\n"
@@ -45,7 +43,7 @@ class Model
       print "insert:" + NKF.guess(fullpath).to_s + ":" + fullpath + "\n"
       filelist = Filelist.new
     end
-
+    
     begin
       filelist.path = NKF.nkf('-w', path)
       filelist.file = NKF.nkf('-w', file)
@@ -59,16 +57,15 @@ class Model
       p e.message
     end
   end
-
-  def self.delete(path=$const.CRAWL_PATH)
-    filelist = Filelist.all
-    filelist.each do |f|
-      unless File.exist?(f.fullpath)
-        p f.fullpath
-        Filelist.delete_all("path='#{f.fullpath}'")
-      end
+  
+  def self.delete_by_path(path=$const.CRAWL_PATH)
+    begin
+      print "delete start\n"
+      all = Filelist.delete_all
+      print "delete complete\n"
+    rescue Exception => e
+      print "Exception:delete_by_path\n"
+      p e.message
     end
   end
-end
-
 end
