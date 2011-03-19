@@ -73,6 +73,8 @@ module Model
     ownid = Digest::MD5.hexdigest(path)
     
     filelist = Filelist.find_by_ownid(ownid)
+    p ownid
+    p filelist
     return unless filelist
 
     download = Download.find_by_ownid(ownid)
