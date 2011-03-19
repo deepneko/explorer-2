@@ -48,7 +48,7 @@ module Model
   end
 
   def self.analyze_xferlog(path=$const.XFERLOG_PATH)
-    log = `grep "#{Time.now.strftime("%a %b %d")}" #{path} | nkf -w`
+    log = `grep "#{Time.now.strftime("%a %b %d")}" #{path}`
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
         print $2 + "\n"
@@ -58,7 +58,7 @@ module Model
   end
 
   def self.analyze_smblog(path=$const.SMBLOG_PATH)
-    log = `grep -A 1 "#{Time.now.strftime("%Y/%m/%d")}" #{path} | grep "opened file" | nkf -w`
+    log = `grep -A 1 "#{Time.now.strftime("%Y/%m/%d")}" #{path} | grep "opened file"`
 
     log.each do |l|
       if l =~ /(nobody opened file )(.*)( read=Yes)/
