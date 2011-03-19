@@ -75,6 +75,10 @@ module Model
     filelist = Filelist.find_by_ownid(ownid)
     p ownid
     p filelist
+
+    f = Filelist.find_by_fullpath("/Soft/Cisco/SDM/SDM2.4.1Japanese-DL/SDM-V241-ja/sdm.tar")
+    p f.ownid
+    p f.file
     return unless filelist
 
     download = Download.find_by_ownid(ownid)
