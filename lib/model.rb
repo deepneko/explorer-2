@@ -18,8 +18,14 @@ module Model
     result.map{|p| p.fullpath}
   end
 
+  # real time
   def self.open_path(path=$const.CRAWL_PATH)
     Util::FolderTree.new(path).tree
+  end
+
+  # from db
+  def self.open_tree(path=$const.CRAWL_PATH)
+    Dirlist.all(:pathid => Digest::MD5.hexdigest(path)).map{|dir| dir}
   end
 
   def self.all
@@ -33,16 +39,18 @@ module Model
 
   class Filelist
     include MongoMapper::Document
-    key :path, String, :required => true
+    key :pathid, String, :required => true
+    key :ownid, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
     timestamps!
   end
 
-  class Download
+  class Dirlist
     include MongoMapper::Document
-    key :file_id, ObjectId, :required => true
-    key :download, Integer, :required => true
-    key :user, Array, :required => true
+    key :pathid, String, :required => true
+    key :ownid, String, :required => true
+    key :file, String, :required => true
+    key :fullpath, String, :required => true
   end
 end

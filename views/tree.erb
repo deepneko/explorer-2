@@ -1,5 +1,5 @@
 <%= erb :header %>
 
-<% Model.open_path(path).each do |row| %>
-  <%= row %><br>
+<% Model.open_tree(path).each do |row| %>
+  <%= row.file %><br>
 <% end %>

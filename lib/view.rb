@@ -10,6 +10,7 @@ module View
 
   def self.index
     get '/' do
+      connect
       erb :index
     end
   end

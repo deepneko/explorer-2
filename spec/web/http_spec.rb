@@ -10,7 +10,6 @@ describe 'GET /' do
   end
 
   it "status code should be 200" do
-    p last_response.body
     last_response.ok?.should be_true
   end
 
