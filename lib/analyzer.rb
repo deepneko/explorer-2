@@ -71,17 +71,16 @@ module Model
   def self.savelog(path)
     path = NKF.nkf('-w', path)
     ownid = Digest::MD5.hexdigest(path)
+
+    p "-----------"
+    p "path:" + path
+    p "ownid:" + ownid
     
     filelist = Filelist.find_by_ownid(ownid)
     return unless filelist
 
-    p "-----------"
-    p ":::" + path
-    p ownid
-
-    f = Filelist.find_by_fullpath("/bbb/bbb/31")
-    p f.ownid
-    p f.fullpath
+    p filelist.ownid
+    p filelist.fullpath
     p "-----------"
 
     download = Download.find_by_ownid(ownid)
