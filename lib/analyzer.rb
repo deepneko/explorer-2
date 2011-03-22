@@ -73,14 +73,14 @@ module Model
     ownid = Digest::MD5.hexdigest(path)
 
     p "-----------"
-    p "path:" + path
-    p "ownid:" + ownid
+    print "path:" + path + "\n"
+    print "ownid:" + ownid + "\n"
     
     filelist = Filelist.find_by_ownid(ownid)
     return unless filelist
 
-    p filelist.ownid
-    p filelist.fullpath
+    print filelist.ownid + "\n"
+    print filelist.fullpath + "\n"
     p "-----------"
 
     download = Download.find_by_ownid(ownid)
