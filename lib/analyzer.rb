@@ -40,6 +40,7 @@ module Model
   def self.analyze_all_xferlog(path=$const.XFERLOG_PATH)
     log = `cat #{path} | nkf -w`
     log.each do |l|
+      print l
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
         print $2
         savelog($2)
