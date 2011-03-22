@@ -76,12 +76,14 @@ module Model
     print "path:" + path + "\n"
     print "ownid:" + ownid + "\n"
     
-    filelist = Filelist.find_by_ownid(ownid)
+    filelist = Filelist.find_by_fullpath(path)
     return unless filelist
 
     print filelist.ownid + "\n"
     print filelist.fullpath + "\n"
     p "-----------"
+
+    return unless filelist.ownid == ownid
 
     download = Download.find_by_ownid(ownid)
     if download
