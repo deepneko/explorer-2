@@ -16,8 +16,9 @@ module View
   end
 
   def self.tree
-    get '/tree' do
-      erb :tree, :locals => {:path => params[:path]}
+    get '/tree/:pathid' do
+      connect
+      erb :tree, :locals => {:pathid => params[:pathid]}
     end
   end
 

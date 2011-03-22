@@ -1,87 +1,44 @@
 module Util
   class FolderTree
     attr_reader :tree
+    attr_reader :output
 
-    def initialize(path)
-      @path = path
+    def initialize
       @tree = []
-      @folderlist = [Folder.new($const.CRAWL_PATH)]
-      dir = $const.CRAWL_PATH
-      path.gsub($const.CRAWL_PATH, "").split("/").each do |p|
-        dir += p
-        if File.file? dir
-          @file = dir
-        else
-          dir += "/"
-          @folderlist << Folder.new(dir)
-        end
-      end
-
-      # test
-      test1 = @folderlist.map{|f| f.path}
-      p "test1:#{test1.join(",")}"
-
-      if @folderlist.size > 1
-        createtree(@folderlist[0], 0, @folderlist[1])
-      else
-        createtree(@folderlist[0], 0)
-      end
-      p "------------------------------------------------------------------"
+      @output = ""
     end
 
-    def createtree(folder, depth, next_folder=nil)
-      depth += 1
-      p "#{'  '*depth}depth:#{depth}"
-      p "#{'  '*depth}next_folder:#{next_folder.path}" if next_folder
-      folder.dirlists.each do |f|
-        p "#{'  '*depth}#{f}"
-        dir = "<a href=/tree?path=#{f}>" + File.basename(f) + "</a>"
-        @tree << ("&nbsp;&nbsp;&nbsp;&nbsp;"*depth) + "<img src=/img/dir.gif>" + dir
-        if next_folder && @folderlist.size > depth
-          createtree(@folderlist[depth], depth, @folderlist[depth+1]) if f == next_folder.path
-        end
+    def createtree
+      _createtree(@tree.pop)
+      @output
+    end
+
+    def _createtree(folder, depth=0)
+      next_folder = nil
+      next_folder = @tree.pop if @tree.size != 0
+
+      folder.dirlist.each do |dir|
+        p "#{'  '*depth}#{dir.file}"
+        @output += ("&nbsp;&nbsp;&nbsp;&nbsp;"*depth) + "<img src=/img/dir.gif><a href=/tree/#{dir.ownid}>" + dir.file + "</a><br>"
+        _createtree(next_folder, depth+1) if next_folder and next_folder.pathid == dir.ownid
       end
 
-      folder.filelists.each do |f|
-        p "#{'  '*depth}#{f}"
-        if f == @path
-          file = "<font color=red>" + File.basename(f) + "</font>"
-          @tree << ("&nbsp;&nbsp;&nbsp;&nbsp;"*depth) + "<img src=/img/text.gif>" + file
-        else
-          @tree << ("&nbsp;&nbsp;&nbsp;&nbsp;"*depth) + "<img src=/img/text.gif>" + File.basename(f) 
-        end
+      folder.filelist.each do |file|
+        p "#{'  '*depth}#{file.file}"
+        @output += ("&nbsp;&nbsp;&nbsp;&nbsp;"*depth) + "<img src=/img/text.gif>" + file.file + "<br>"
       end
     end
   end
 
   class Folder
-    attr_reader :path
-    attr_reader :filelists #absolute path
-    attr_reader :dirlists #absolute path
+    attr_reader :filelist
+    attr_reader :dirlist
+    attr_reader :pathid
 
-    def initialize(path)
-      @path = path
-      @filelists = []
-      @dirlists = []
-      current(path)
-
-      p "---------------"
-      p @path
-      p @filelists
-      p @dirlists
-      p "---------------"
-    end
-
-    def current(path)
-      Dir.open(path).each do |f|
-        absolute_path = path + f
-        next if f =~ /^\./
-        if File.file? absolute_path
-          @filelists << absolute_path
-        else
-          @dirlists << absolute_path + "/"
-        end
-      end
+    def initialize(dirlist, filelist, pathid)
+      @dirlist = dirlist
+      @filelist = filelist
+      @pathid = pathid
     end
   end
 end

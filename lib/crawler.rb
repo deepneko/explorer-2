@@ -32,15 +32,17 @@ module Model
   end
 
   def self.crawl(path=$const.CRAWL_PATH)
-    self.savedir($const.CRAWL_PATH, $const.CRAWL_PATH) if path == $const.CRAWL_PATH
+    self.savedir("/", "/", "/") if path == $const.CRAWL_PATH
 
     Dir.open(path).each do |file|
       unless file =~ /^\./
         fullpath = path + file
+        rel_path = path.gsub($const.CRAWL_PATH, "/")
+        rel_fullpath = fullpath.gsub($const.CRAWL_PATH, "/")
         if File.file?(fullpath)
-          self.savefile(path, file, fullpath)
+          self.savefile(rel_path, file, rel_fullpath, File.mtime(fullpath))
         else
-          self.savedir(path, fullpath + "/")
+          self.savedir(rel_path, file, rel_fullpath + "/")
           print "dir:" + fullpath + "\n"
           self.crawl(fullpath + "/")
         end
@@ -48,8 +50,7 @@ module Model
     end
   end
 
-  def self.savefile(path, file, fullpath)
-    created_at = File.mtime(fullpath)
+  def self.savefile(path, file, fullpath, created_at)
     path = NKF.nkf('-w', path)
     fullpath = NKF.nkf('-w', fullpath)
     file = NKF.nkf('-w', file)
@@ -79,11 +80,13 @@ module Model
     end
   end
 
-  def self.savedir(path, fullpath)
-    file = NKF.nkf('-w', File.basename(fullpath))
+  def self.savedir(path, file, fullpath)
+    file = NKF.nkf('-w', file)
     fullpath = NKF.nkf('-w', fullpath)
     pathid = Digest::MD5.hexdigest(path)
-    ownid = Digest::MD5.hexdigest(fullpath)
+    ownid = Digest::MD5.hexdigest(fullpath)    
+
+    return if pathid == ownid # "/" not inserted
 
     dirlist = Dirlist.find_by_ownid(ownid)
     if dirlist

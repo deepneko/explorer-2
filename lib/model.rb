@@ -18,14 +18,22 @@ module Model
     result.map{|p| p.fullpath}
   end
 
-  # real time
-  def self.open_path(path=$const.CRAWL_PATH)
-    Util::FolderTree.new(path).tree
-  end
-
   # from db
-  def self.open_tree(path=$const.CRAWL_PATH)
-    Dirlist.all(:pathid => Digest::MD5.hexdigest(path)).map{|dir| dir}
+  def self.open_tree(pathid=$const.CRAWL_PATHID, ownid=nil)
+    foldertree = Util::FolderTree.new
+
+    loop do
+      dirlist = Dirlist.all(:pathid => pathid)
+      filelist = Filelist.all(:pathid => pathid)
+      foldertree.tree << Util::Folder.new(dirlist, filelist, pathid)
+
+      dir = Dirlist.all(:ownid => pathid)[0]
+      break unless dir
+
+      pathid = dir.pathid
+    end    
+
+    foldertree.createtree
   end
 
   def self.all
