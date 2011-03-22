@@ -75,6 +75,15 @@ module Model
     filelist = Filelist.find_by_ownid(ownid)
     return unless filelist
 
+    p "-----------"
+    p ":::" + path
+    p ownid
+
+    f = Filelist.find_by_fullpath("/bbb/bbb/31")
+    p f.ownid
+    p f.fullpath
+    p "-----------"
+
     download = Download.find_by_ownid(ownid)
     if download
       print "update:" + filelist.fullpath + ":" + filelist.fullpath + "\n"
