@@ -41,6 +41,7 @@ module Model
     log = `cat #{path} | nkf -w`
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
+        print $2
         savelog($2)
       end
     end
