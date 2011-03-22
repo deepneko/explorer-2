@@ -15,7 +15,7 @@ module Model
       end
     end
 
-    result.map{|p| p.fullpath}
+    result.map{|p| p}
   end
 
   # from db
@@ -31,7 +31,7 @@ module Model
       break unless dir
 
       pathid = dir.pathid
-    end    
+    end
 
     foldertree.createtree
   end

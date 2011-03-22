@@ -2,7 +2,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 
 namespace :spec do
-  EXPLORER_TARGET = [:crawler, :web]
+  EXPLORER_TARGET = [:crawler, :web, :delete]
 
   EXPLORER_TARGET.each do |target|
     RSpec::Core::RakeTask.new(target) do |t|
@@ -20,3 +20,4 @@ end
 task :default => "spec:all"
 task :crawler => "spec:crawler"
 task :web => "spec:web"
+task :delete => "spec:delete"
