@@ -41,7 +41,6 @@ module Model
     log = `cat #{path} | nkf -w`
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
-        print $2 + "\n"
         savelog($2)
       end
     end
@@ -51,7 +50,6 @@ module Model
     log = `grep "#{Time.now.strftime("%a %b %d")}" #{path}`
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
-        print $2 + "\n"
         savelog($2)
       end
     end
@@ -62,7 +60,6 @@ module Model
 
     log.each do |l|
       if l =~ /(nobody opened file )(.*)( read=Yes)/
-        print "/" + $2 + "\n"
         savelog("/" + $2)
       end
     end
@@ -73,8 +70,8 @@ module Model
     ownid = Digest::MD5.hexdigest(path)
 
     p "-----------"
-    print "path:" + path + "\n"
-    print "ownid:" + ownid + "\n"
+    print "path:" + path + "|||\n"
+    print "ownid:" + ownid + "|||\n"
     
     filelist = Filelist.find_by_fullpath(path)
     return unless filelist

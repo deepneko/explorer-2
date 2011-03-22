@@ -66,6 +66,7 @@ module Model
       print "insert:" + NKF.guess(fullpath).to_s + ":" + fullpath + "\n"
       filelist = Filelist.new
     end
+    print "ownid:" + ownid + "\n"
     
     begin
       filelist.pathid = pathid
