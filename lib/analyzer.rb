@@ -42,7 +42,7 @@ module Model
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
         print $2 + "\n"
-        savelog("/" + $2)
+        savelog($2)
       end
     end
   end
@@ -52,7 +52,7 @@ module Model
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
         print $2 + "\n"
-        savelog("/" + $2)
+        savelog($2)
       end
     end
   end
@@ -73,12 +73,6 @@ module Model
     ownid = Digest::MD5.hexdigest(path)
     
     filelist = Filelist.find_by_ownid(ownid)
-    p ownid
-    p filelist
-
-    f = Filelist.find_by_fullpath("/Soft/Cisco/SDM/SDM2.4.1Japanese-DL/SDM-V241-ja/sdm.tar")
-    p f.ownid
-    p f.file
     return unless filelist
 
     download = Download.find_by_ownid(ownid)
