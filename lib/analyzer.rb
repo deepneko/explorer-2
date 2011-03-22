@@ -41,8 +41,7 @@ module Model
     log = `cat #{path} | nkf -w`
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
-        s = $2.gsub("_", " ")
-        savelog(s)
+        savelog($2)
       end
     end
   end
@@ -51,8 +50,7 @@ module Model
     log = `grep "#{Time.now.strftime("%a %b %d")}" #{path}`
     log.each do |l|
       if l =~ /(\/usr\/home\/BACKUP\/kotachu)(.*)( b _ o r )(.*)( ftp 0 \* c)/
-        s = $2.gsub("_", " ")
-        savelog(s)
+        savelog($2)
       end
     end
   end
@@ -71,18 +69,28 @@ module Model
     path = NKF.nkf('-w', path)
     ownid = Digest::MD5.hexdigest(path)
 
+    g_path = path.gsub("_", " ")
+    g_ownid = Digest::MD5.hexdigest(g_path)
+
     p "-----------"
     print "path:" + path + "\n"
     print "ownid:" + ownid + "\n"
     
-    filelist = Filelist.find_by_fullpath(path)
+    filelist = Filelist.find_by_ownid(ownid)
+    unless filelist
+      path = g_path
+      ownid = g_ownid
+      filelist = Filelist.find_by_ownid(ownid)
+
+      print "path:" + path + "\n"
+      print "ownid:" + ownid + "\n"
+    end
+
     return unless filelist
 
     print filelist.ownid + "\n"
     print filelist.fullpath + "\n"
     p "-----------"
-
-    return unless filelist.ownid == ownid
 
     download = Download.find_by_ownid(ownid)
     if download
