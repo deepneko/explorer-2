@@ -44,13 +44,12 @@ module View
         xml.rss :version => "2.0" do
           xml.channel do
             xml.title "TOMOYO search"
-            xml.description "みんなのTOMOYO"
             xml.link "http://tomoyo.uraz.org/"
             
             Model.recent_update(7).each do |u|
               xml.item do
                 xml.title "TOMOYO recent update!!"
-                xml.description = u.created_at.strftime('%Y-%m-%d %H:%M:%S') + " " + u.file + "<br>"
+                xml.description = "[" + u[:created_at].strftime('%Y-%m-%d %H:%M:%S') + "] " + u[:file] + "<br>"
               end
             end
           end
