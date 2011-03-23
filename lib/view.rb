@@ -37,23 +37,20 @@ module View
   end
 
   def self.rss
-    get '/rss.xml' do
+    get '/rss' do
       connect
       builder do |xml|
-        xml.instruct!
+        xml.instruct! :xml, :version => 1.0
         xml.rss :version => "2.0" do
           xml.channel do
             xml.title "TOMOYO search"
+            xml.description "みんなのTOMOYO"
             xml.link "http://tomoyo.uraz.org/"
             
-            Model.recent_update(7) do |updates|
+            Model.recent_update(7).each do |u|
               xml.item do
                 xml.title "TOMOYO recent update!!"
-                text = ""
-                updates.each do |u|
-                  text += u[:created_at].strftime('%Y-%m-%d %H:%M:%S') + " " + u[:file] + "<br>"
-                end
-                xml.description text
+                xml.description = u.created_at.strftime('%Y-%m-%d %H:%M:%S') + " " + u.file + "<br>"
               end
             end
           end

@@ -18,6 +18,10 @@ require 'model'
 require 'util'
 require 'const'
 
+class String
+  alias_method :to_xs, :original_xs if method_defined? :original_xs
+end
+
 $const = Const.init
 View.init
 set :sessions, true
