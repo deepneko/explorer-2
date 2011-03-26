@@ -26,7 +26,5 @@ describe Model do
   end
 
   after do 
-    #`rm -rf #{@const.CRAWL_PATH + "*"}`
-    #Model.delete_by_path(@const.CRAWL_PATH)
   end
 end
