@@ -20,7 +20,6 @@ module Model
     key :ownid, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
-    key :rawpath, String, :required => true
     timestamps!
   end
 
@@ -30,7 +29,6 @@ module Model
     key :ownid, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
-    key :rawpath, String, :required => true
   end
 
   def self.crawl(path=$const.CRAWL_PATH)
@@ -53,7 +51,6 @@ module Model
   end
 
   def self.savefile(path, file, fullpath, created_at)
-    rawpath = fullpath
     path = NKF.nkf('-w', path)
     fullpath = NKF.nkf('-w', fullpath)
     file = NKF.nkf('-w', file)
@@ -73,7 +70,6 @@ module Model
       filelist.ownid = ownid
       filelist.fullpath = fullpath
       filelist.file = file
-      filelist.rawpath = rawpath
       filelist.created_at = created_at
       print "save start\n"
       filelist.save!
@@ -85,7 +81,6 @@ module Model
   end
 
   def self.savedir(path, file, fullpath)
-    rawpath = fullpath
     file = NKF.nkf('-w', file)
     fullpath = NKF.nkf('-w', fullpath)
     pathid = Digest::MD5.hexdigest(path)
@@ -106,7 +101,6 @@ module Model
       dirlist.ownid = ownid
       dirlist.file = file
       dirlist.fullpath = fullpath
-      dirlist.rawpath = rawpath
       print "save start\n"
       dirlist.save!
       print "save complete\n"
@@ -130,7 +124,7 @@ module Model
 
   def self.delete_if_not_exist(path=$const.CRAWL_PATH)
     Filelist.all.each do |f|
-      unless File.exist?(path + f.rawpath)
+      unless File.exist?(path + f.fullpath)
         begin
           print "destroy start:#{f.fullpath}\n"
           f.destroy
@@ -143,7 +137,7 @@ module Model
     end
 
     Dirlist.all.each do |d|
-      unless File.exist?(path + d.rawpath)
+      unless File.exist?(path + d.fullpath)
         begin
           print "destroy start:#{d.fullpath}\n"
           d.destroy

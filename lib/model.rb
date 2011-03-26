@@ -51,7 +51,6 @@ module Model
     key :ownid, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
-    key :rawpath, String, :required => true
     timestamps!
   end
 
@@ -61,6 +60,5 @@ module Model
     key :ownid, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
-    key :rawpath, String, :required => true
   end
 end

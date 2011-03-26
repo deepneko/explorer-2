@@ -13,7 +13,7 @@ describe Model do
   end
 
   it "delete complete" do
-    Model.delete_if_not_exist
+    Model.delete
   end
 
   it "crawl complete" do
