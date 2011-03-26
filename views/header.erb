@@ -1,16 +1,30 @@
 <head>
-<title>tomoyo explorer</title>
+<title>file explorer</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" charset="utf-8"/>
+<style>
+BODY, TD, TR{font-size:12px}
+A{text-decoration:none}
+</style>
 </head>
+<body bgcolor=#ffffff link=#00004c vlink=#00004c alink=#eeeeee>
 
-<b><a href=/>File Search</a></b></br>
-<form action='/search?keyword=<%= params[:keyword] %>' method='get'>
-Keyword: <input type="text" name="keyword" value="<%= params[:keyword] %>"><br>
-<input type="submit" value="Search">
-</form>
+<div id="nav">
+  <ul>
+    <li><a href=/>[ explorer ]</a></li>
+    <li><a href=/update/7>[  week  ]</a></li>
+    <li><a href=/update/30>[ month ]</a></li>
+    <li><a href=/update/365>[  year  ]</a></li>
+    <li class="search">
+      <form action='/search?keyword=<%= params[:keyword] %>' method='get'>
+        <input type="text" name="keyword" value="<%= params[:keyword] %>">
+        <input class="searchbutton" type="submit" value="">
+      </form>
+    </li>
+  </ul>
+</div>
 
-<hr>
-
-recent update!! -> <a href=/update/7>week</a> | <a href=/update/30>month</a> | <a href=/update/365>year</a><br>
-rss -> <a href=/rss>rss</a>
-
+<br><br>
+皆のファイル置き場だよ！<br>
+上のボタン(week, month, year)で最近<s>アップロード</s>バックアップされたファイルがわかるよ！<br>
+右上のフォームからファイルを検索できるよ！
 <hr>
