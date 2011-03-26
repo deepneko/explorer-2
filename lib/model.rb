@@ -23,8 +23,8 @@ module Model
     foldertree = Util::FolderTree.new
 
     loop do
-      dirlist = Dirlist.all(:pathid => pathid)
-      filelist = Filelist.all(:pathid => pathid)
+      dirlist = Dirlist.sort(:file).all(:pathid => pathid)
+      filelist = Filelist.sort(:file).all(:pathid => pathid)
       foldertree.tree << Util::Folder.new(dirlist, filelist, pathid)
 
       dir = Dirlist.all(:ownid => pathid)[0]

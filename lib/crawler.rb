@@ -110,15 +110,43 @@ module Model
     end
   end
   
-  def self.delete_by_path(path=$const.CRAWL_PATH)
+  def self.delete(path=$const.CRAWL_PATH)
     begin
       print "delete start\n"
       Filelist.delete_all
       Dirlist.delete_all
       print "delete complete\n"
     rescue Exception => e
-      print "Exception:delete_by_path\n"
+      print "Exception:delete\n"
       p e.message
+    end
+  end
+
+  def self.delete_if_not_exist(path=$const.CRAWL_PATH)
+    Filelist.all.each do |f|
+      unless File.exist?(path + f.fullpath)
+        begin
+          print "destroy start:#{f.fullpath}\n"
+          f.destroy
+          print "destroy end\n"
+        rescue Exception => e
+          print "Exception:delete_if_not_exist\n"
+          p e.message
+        end
+      end
+    end
+
+    Dirlist.all.each do |d|
+      unless File.exist?(path + d.fullpath)
+        begin
+          print "destroy start:#{d.fullpath}\n"
+          d.destroy
+          print "destroy end\n"
+        rescue Exception => e
+          print "Exception:delete_if_not_exist\n"
+          p e.message
+        end
+      end
     end
   end
 end
