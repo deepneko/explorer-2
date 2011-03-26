@@ -17,7 +17,7 @@ describe Model do
   end
 
   it "crawl complete" do
-    #Model.crawl
+    Model.crawl
   end
 
   after do 
