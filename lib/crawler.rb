@@ -35,6 +35,8 @@ module Model
     self.savedir("/", "/", "/") if path == $const.CRAWL_PATH
 
     Dir.open(path).each do |file|
+      next if $const.IGNORE_PATH.include? path
+
       unless file =~ /^\./
         fullpath = path + file
         rel_path = path.gsub($const.CRAWL_PATH, "/")
