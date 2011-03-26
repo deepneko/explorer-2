@@ -42,7 +42,7 @@ module Model
 
   def self.recent_update(span)
     since = (Time.now - 24*60*60*(span.to_i)).utc
-    Filelist.where(:created_at.gt => since).sort(:created_at.desc).all.limit(5000)
+    Filelist.where(:created_at.gt => since).sort(:created_at.desc).limit(10000)
   end
 
   class Filelist
