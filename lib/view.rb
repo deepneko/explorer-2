@@ -4,6 +4,7 @@ module View
     index
     tree
     update
+    rank
     search
     rss
   end
@@ -33,6 +34,13 @@ module View
     get '/update/:span' do
       connect
       erb :update, :locals => {:span => params[:span]}
+    end
+  end
+
+  def self.rank
+    get '/rank' do
+      connect
+      erb :rank
     end
   end
 

@@ -45,6 +45,15 @@ module Model
     Filelist.where(:created_at.gt => since).sort(:created_at.desc)
   end
 
+  def self.ranking
+    ranking = []
+    download = Download.where(:count.gt => 1).sort(:count.desc)
+    download.each do |d|
+      ranking << [d.count, Filelist.find_by_ownid(d.ownid).file]
+    end
+    ranking
+  end
+
   class Filelist
     include MongoMapper::Document
     key :pathid, String, :required => true
@@ -60,5 +69,11 @@ module Model
     key :ownid, String, :required => true
     key :file, String, :required => true
     key :fullpath, String, :required => true
+  end
+
+  class Download
+    include MongoMapper::Document
+    key :ownid, String, :required => true
+    key :count, Integer, :required => true
   end
 end

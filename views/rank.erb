@@ -1,0 +1,5 @@
+<%= erb :header %>
+
+<% Model.ranking.each do |count, file| %>
+  [<%= count %>] <%= file %>><br>
+<% end %>
