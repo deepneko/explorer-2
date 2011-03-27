@@ -47,7 +47,7 @@ module Model
 
   def self.ranking
     ranking = []
-    download = Download.where(:count.gt => 1).sort(:count.desc)
+    download = Download.where(:count.gt => 0).sort(:count.desc).limit(100)
     download.each do |d|
       ranking << [d.count, Filelist.find_by_ownid(d.ownid).file]
     end
