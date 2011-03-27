@@ -1,5 +1,5 @@
 <%= erb :header %>
 
-<% Model.ranking.each do |count, file| %>
-  [<%= count %>] <%= file %>><br>
+<% Model.ranking.each do |count, pathid, file| %>
+  [ <%= count %> ] <a href=/tree/<%= pathid %>><%= file %></a><br>
 <% end %>
